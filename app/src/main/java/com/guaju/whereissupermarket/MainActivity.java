@@ -16,13 +16,12 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 
 
-
-    //百度地图  北京工商管理专修学院  116.133239,40.239437
+//百度地图  北京工商管理专修学院  116.133239,40.239437
 //谷歌地图  北京工商管理专修学院   116.125824,40.233965
 
 
 public class MainActivity extends AppCompatActivity {
-
+    Marker marker;
     private MapView mMapView;
     private AMap aMap;
 
@@ -38,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         initAmap();
 
         //将地图切换成交通图
-//        switchToTrafficeMap();
+//       switchToTrafficeMap();
         //将地图切换成夜景图
-//        switchToNightMap();
+//       switchToNightMap();
 
         //为北工商添加logo
         initLogoMarker();
@@ -48,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initLogoMarker() {
         //北工商坐标有了
-        LatLng bubaLatLng=new LatLng(40.239437,116.133239);
+        LatLng bubaLatLng = new LatLng(40.239437, 116.133239);
         //为北工商这个位置提供自定义图标的marker
         BitmapDescriptor buba_logo = BitmapDescriptorFactory.fromResource(R.drawable.buba_logo);
-        final Marker marker = aMap.addMarker(new MarkerOptions().position(bubaLatLng).icon(buba_logo));
+        marker = aMap.addMarker(new MarkerOptions().position(bubaLatLng).icon(buba_logo));
 
         //为这个Marker提供一个(自定义的)infowindow
         //创建一个自定义的infowindow
@@ -60,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public View getInfoWindow(Marker marker) {
                 View v = View.inflate(MainActivity.this, R.layout.bubu_infowindow, null);
-                ImageView infowindow_icon = (ImageView)v.findViewById(R.id.infowindow_icon);
-                TextView infowindow_title = (TextView)v.findViewById(R.id.infowindow_title);
-                TextView infowindow_content =(TextView)v.findViewById(R.id.infowindow_content);
+                ImageView infowindow_icon = (ImageView) v.findViewById(R.id.infowindow_icon);
+                TextView infowindow_title = (TextView) v.findViewById(R.id.infowindow_title);
+                TextView infowindow_content = (TextView) v.findViewById(R.id.infowindow_content);
                 infowindow_icon.setBackgroundResource(R.drawable.buba_logo);
                 infowindow_content.setText("LALLLALALALLALALA");
                 infowindow_title.setText("我是标题");
@@ -74,26 +73,38 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+
+        //给infowindow添加点击事件
         aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if (marker.isInfoWindowShown()){
+                if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
-                }
-                else{
-                    marker.showInfoWindow();
                 }
             }
         });
+        //给map添加点击事件
         aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if (marker.isInfoWindowShown()){
+                if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
                 }
             }
         });
-                   
+        //给marker添加点击事件  如果处理的话 就返回true
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.isInfoWindowShown()) {
+                    marker.hideInfoWindow();
+                }else{
+                    marker.showInfoWindow();
+                }
+                return true;
+            }
+        });
+
     }
 
     private void switchToNightMap() {
@@ -109,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initAmap() {
         //初始化AMap
-        if(aMap==null){
-            aMap=  mMapView.getMap();
+        if (aMap == null) {
+            aMap = mMapView.getMap();
         }
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
@@ -127,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
 
 
-
     }
 
     @Override
@@ -136,22 +146,27 @@ public class MainActivity extends AppCompatActivity {
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mMapView.onDestroy();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
     }
+
+
 }
