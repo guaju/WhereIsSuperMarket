@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guaju.whereissupermarket.POIActivity">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/et_poi"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        />
+       <ImageButton
+           android:layout_marginRight="5dp"
+           android:layout_marginTop="5dp"
+           android:layout_alignParentRight="true"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:onClick="search"
+           android:background="@drawable/search"
+           />
+
+   </RelativeLayout>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+</LinearLayout>

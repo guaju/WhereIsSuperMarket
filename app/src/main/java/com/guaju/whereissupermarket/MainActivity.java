@@ -80,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
             public void onInfoWindowClick(Marker marker) {
                 if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
+                    //详情页面或者导航
+
+
+
                 }
             }
         });

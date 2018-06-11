@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guaju.whereissupermarket.CategrayActivity">
+
+    <Button
+        android:onClick="bt1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="地图及marker+infowindow显示"
+        />
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:onClick="bt2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="POI检索"
+        />
+
+</LinearLayout>

@@ -12,11 +12,11 @@ android {
 
         //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
         }
-        sourceSets{
-            main{
-                jniLibs.srcDirs=['libs']
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ['libs']
             }
         }
 
@@ -50,11 +50,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-     //高德地图3d   最新版本
+    //高德地图3d   最新版本
     compile 'com.amap.api:3dmap:latest.integration'
     //定位
 //    compile 'com.amap.api:location:latest.integration'
 
+    //搜索功能
+    compile 'com.amap.api:search:latest.integration'
 
 
 }
