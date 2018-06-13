@@ -1,6 +1,8 @@
 package com.guaju.whereissupermarket;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,10 +22,11 @@ import com.amap.api.maps.model.MyLocationStyle;
 //谷歌地图  北京工商管理专修学院   116.125824,40.233965
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AMap.OnMyLocationChangeListener  {
     Marker marker;
     private MapView mMapView;
     private AMap aMap;
+    private TextView tv_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.map);
+        tv_location = (TextView) findViewById(R.id.tv_location);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
 
@@ -140,6 +144,20 @@ public class MainActivity extends AppCompatActivity {
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         //实现定位功能
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+        //启动定位1秒钟之后去拿到定位
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Location myLocation = aMap.getMyLocation();
+                if (myLocation==null||myLocation.getExtras().get("City")==null){
+                    tv_location.setText("定位中...");
+                }else{
+                tv_location.setText(myLocation.getExtras().get("City")+"");
+                }
+
+
+            }
+        },1000);
 
 
     }
@@ -172,5 +190,9 @@ public class MainActivity extends AppCompatActivity {
         mMapView.onSaveInstanceState(outState);
     }
 
-
+    //当定位位置发生变化的时候触发
+    @Override
+    public void onMyLocationChange(Location location) {
+        tv_location.setText(location.getExtras().get("City")+"");
+    }
 }

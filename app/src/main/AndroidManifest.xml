@@ -30,16 +30,18 @@
             android:name="com.amap.api.v2.apikey"
             android:value="22910ded52c33b1fd5e0ebb53c2d89a6" />
 
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".CategrayActivity" >
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".CategrayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".POIActivity"></activity>
+        <activity android:name=".POIActivity" />
+        <activity android:name=".ShopDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.guaju.whereissupermarket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,7 +24,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
 
 import java.util.ArrayList;
-
+                                                      //1、实现OnPoiSearcheListener接口
 public class POIActivity extends AppCompatActivity implements OnPoiSearchListener  {
 
     private EditText et_poi;
@@ -53,14 +54,14 @@ public class POIActivity extends AppCompatActivity implements OnPoiSearchListene
         //判断是否合法
         if (!TextUtils.isEmpty(searchInfo)){
             //去做搜索的操作
-          // 1、 构造 PoiSearch.Query 对象
+          // 2、 构造 PoiSearch.Query 对象
             PoiSearch.Query query = new PoiSearch.Query(searchInfo, "", "北京");
             query.setPageSize(10);// 设置每页最多返回多少条poiitem
             query.setPageNum(0);//设置查询页码
-          //2、创建Search对象
+          //3、创建Search对象
             PoiSearch poiSearch = new PoiSearch(this, query);
             poiSearch.setOnPoiSearchListener(this);
-         //3、调用 PoiSearch 的 searchPOIAsyn() 方法发送请求
+         //4、启用搜索指令 调用 PoiSearch 的 searchPOIAsyn() 方法发送请求
             poiSearch.searchPOIAsyn();
 
 
@@ -73,9 +74,10 @@ public class POIActivity extends AppCompatActivity implements OnPoiSearchListene
 
     }
 
-
+   //5、实现回调函数
     @Override
     public void onPoiSearched(PoiResult poiResult, int i) {
+        //当拿到poi搜索结果点的时候 怎么做 ：这的做法是吧marker标记出来，并且设置其InfoWindow
         ArrayList<PoiItem> pois = poiResult.getPois();
         initMarker(pois);
 
@@ -138,6 +140,18 @@ public class POIActivity extends AppCompatActivity implements OnPoiSearchListene
                         }
                     }
 
+                }
+            });
+            //点击infowindow跳转页面
+            map.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Intent intent = new Intent(POIActivity.this, ShopDetailActivity.class);
+                    //传递经纬度
+                    intent.putExtra("latlon",marker.getPosition());
+                    intent.putExtra("title",marker.getTitle());
+                    intent.putExtra("des",marker.getSnippet());
+                  startActivity(intent);
                 }
             });
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guaju.whereissupermarket.ShopDetailActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/buba_logo"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/location"
+            />
+    <TextView
+        android:id="@+id/tv_location"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="地址是啦啦啦\n啦啦啦阿里啦啦啦"
+        />
+    </LinearLayout>
+
+    <TextView
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="这家是肯德基餐厅，欢迎新老客户前来品\n，这家是肯德基餐厅\n，欢迎新老客户前来品尝这家是肯德基餐厅\n，欢迎新老客户前来品尝这家是肯德基餐厅\n，欢迎新老客户前来品尝"
+        />
+
+
+
+</LinearLayout>
