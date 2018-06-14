@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.guaju.whereissupermarket.RouteActivity">
+    tools:context="com.guaju.whereissupermarket.gaode.RouteActivity">
     <com.amap.api.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"

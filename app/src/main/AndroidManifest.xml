@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.guaju.whereissupermarket">
+    <!--百度地图权限起点-->
+    //获取设备网络状态，禁用后无法获取网络状态
+    <uses-permission android:name="android.permission.INTERNET"/>
+    //网络权限，当禁用后，无法进行检索等相关业务
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    //读取设备硬件信息，统计数据
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    //读取系统信息，包含系统版本等信息，用作统计
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    //获取设备的网络状态，鉴权所需网络代理
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    //允许sd卡写权限，需写入地图数据，禁用后无法显示地图
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    //获取统计数据
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    //鉴权所需该权限获取进程列表
+    <uses-permission android:name="android.permission.CAMERA" />
+    //使用步行AR导航，配置Camera权限
+
+    <!--百度地图权限终点-->
+
+
+
+    <!--高德权限起点-->
     //地图SDK（包含其搜索功能）需要的基础权限
 
     <!-- 允许程序打开网络套接字 -->
@@ -19,9 +43,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -31,9 +52,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <!--高德权限终点-->
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -46,27 +66,42 @@
             android:name="com.amap.api.v2.apikey"
             android:value="22910ded52c33b1fd5e0ebb53c2d89a6" />
 
+        <!-- 百度地图申请的key -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="kx8eghGhbNylQcGamo7WZo23Weq6G4xd" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".gaode.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".CategrayActivity">
+        <activity android:name=".gaode.CategrayActivity"></activity>
+        //高德定位服务
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".gaode.POIActivity" />
+        <activity android:name=".gaode.ShopDetailActivity" />
+        <activity android:name=".gaode.RouteActivity" />
+        <activity android:name=".gaode.RouteAndNavActivity" />
+        //高德提供的导航activity
+        <activity
+            android:name="com.amap.api.navi.AmapRouteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        //高德定位服务
-        <service android:name="com.amap.api.location.APSService" />
+        <activity android:name=".baidu.HomeActivity"></activity>
 
-        <activity android:name=".POIActivity" />
-        <activity android:name=".ShopDetailActivity" />
-        <activity android:name=".RouteActivity" />
-        <activity android:name=".RouteAndNavActivity"></activity>
-        //高德提供的导航activity
-        <activity android:name="com.amap.api.navi.AmapRouteActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
     </application>
 
 </manifest>

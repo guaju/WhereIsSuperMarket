@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.guaju.whereissupermarket.CategrayActivity">
+    tools:context="com.guaju.whereissupermarket.gaode.CategrayActivity">
 
     <Button
         android:onClick="bt1"
