@@ -12,13 +12,14 @@ import com.amap.api.location.AMapLocationListener;
  */
 
 public class MyApplication extends Application {
+    //位置信息：待会定位到的信息
     public static AMapLocation myLocation = null;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = null;
 
-    //声明AMapLocationClientOption对象
+    //声明AMapLocationClientOption对象  定位的配置
     public AMapLocationClientOption mLocationOption = null;
     public static MyApplication app;
 
@@ -31,9 +32,7 @@ public class MyApplication extends Application {
     }
 
     private void locate() {
-
         mLocationListener = new AMapLocationListener() {
-
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
@@ -41,21 +40,18 @@ public class MyApplication extends Application {
                     aMapLocation.toStr();
                     //停止定位
                     mLocationClient.stopLocation();
-
                 }
-
             }
         };
-
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
-        //设置定位模式
+        //设置定位模式       ：这是高准确度定位模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //开始定位
+        //开始定位     ：设置定位的意图  ：这是标记
         mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
         if (null != mLocationClient) {
             mLocationClient.setLocationOption(mLocationOption);

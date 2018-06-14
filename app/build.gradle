@@ -51,12 +51,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     //高德地图3d   最新版本
-    compile 'com.amap.api:3dmap:latest.integration'
+//    compile 'com.amap.api:3dmap:latest.integration'
     //定位
     compile 'com.amap.api:location:latest.integration'
 
     //搜索功能
     compile 'com.amap.api:search:latest.integration'
+    //导航
+    compile 'com.amap.api:navi-3dmap:latest.integration'
 
 
 }

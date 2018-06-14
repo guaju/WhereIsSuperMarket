@@ -3,14 +3,11 @@ package com.guaju.whereissupermarket;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
@@ -38,37 +35,8 @@ public class RouteActivity extends AppCompatActivity implements RouteSearch.OnRo
 
         initView();
         initMapView(savedInstanceState);
-        initLocation();
         initIntent();
         initSearchDriveRoute();
-
-
-    }
-    //定位
-    private void initLocation() {
-
-        MyLocationStyle myLocationStyle;
-        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        amap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-        //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        //实现定位功能
-        amap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        //启动定位1秒钟之后去拿到定位
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                myLocation = amap.getMyLocation();
-                if (myLocation ==null|| myLocation.getExtras().get("City")==null){
-                    Toast.makeText( RouteActivity.this, "定位失败。。。", Toast.LENGTH_SHORT).show();
-                }else{
-
-
-                }
-
-
-            }
-        },1000);
 
 
     }
@@ -169,12 +137,8 @@ public class RouteActivity extends AppCompatActivity implements RouteSearch.OnRo
                     drivingRouteOverlay.addToMap();
                     drivingRouteOverlay.zoomToSpan();
                 }
-
             }
         }
-
-
-
     }
 
     @Override
