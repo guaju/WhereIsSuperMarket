@@ -16,7 +16,7 @@ android {
         }
         sourceSets {
             main {
-                jniLibs.srcDirs = ['libs', 'libs/baidu']
+                jniLibs.srcDirs = ['libs/gaode', 'libs/baidu']
             }
         }
 

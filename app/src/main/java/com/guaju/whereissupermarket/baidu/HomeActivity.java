@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化MapView注意 该实例化代码必须放在setContentView之前，否则会报布局错误
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_home);
         //初始化百度地图sdk
@@ -129,15 +130,15 @@ public class HomeActivity extends AppCompatActivity {
                 mLocationClient.stop();//停止定位
             }
 
-            double latitude = location.getLatitude();    //获取纬度信息
-            double longitude = location.getLongitude();    //获取经度信息
-            float radius = location.getRadius();    //获取定位精度，默认值为0.0f
-
-            String coorType = location.getCoorType();
-            //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准
-
-            int errorCode = location.getLocType();
-            //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
+//            double latitude = location.getLatitude();    //获取纬度信息
+//            double longitude = location.getLongitude();    //获取经度信息
+//            float radius = location.getRadius();    //获取定位精度，默认值为0.0f
+//
+//            String coorType = location.getCoorType();
+//            //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准
+//
+//            int errorCode = location.getLocType();
+//            //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
 
             showLocationPosition(location);
 
@@ -146,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
+    //这是我们自定义的方法 作用是绘制定位蓝点
     private void showLocationPosition(BDLocation location) {
         // 开启定位图层
 
@@ -164,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
         // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
         BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                 .fromResource(R.mipmap.baidu_logo);
-        MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.COMPASS, true, mCurrentMarker);
+        MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
         mBaiduMap.setMyLocationConfiguration(config);
 
 

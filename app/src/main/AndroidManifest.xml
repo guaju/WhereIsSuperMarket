@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.guaju.whereissupermarket">
-    <!--百度地图权限起点-->
+
+    <!-- 百度地图权限起点 -->
     //获取设备网络状态，禁用后无法获取网络状态
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     //网络权限，当禁用后，无法进行检索等相关业务
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     //读取设备硬件信息，统计数据
@@ -11,7 +12,7 @@
     //读取系统信息，包含系统版本等信息，用作统计
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     //获取设备的网络状态，鉴权所需网络代理
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     //允许sd卡写权限，需写入地图数据，禁用后无法显示地图
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     //获取统计数据
@@ -20,11 +21,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
     //使用步行AR导航，配置Camera权限
 
-    <!--百度地图权限终点-->
+    <!-- 百度地图权限终点 -->
 
 
-
-    <!--高德权限起点-->
+    <!-- 高德权限起点 -->
     //地图SDK（包含其搜索功能）需要的基础权限
 
     <!-- 允许程序打开网络套接字 -->
@@ -52,7 +52,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--高德权限终点-->
+
+    <!-- 高德权限终点 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -74,7 +75,7 @@
         <activity
             android:name=".gaode.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".gaode.CategrayActivity"></activity>
+        <activity android:name=".gaode.CategrayActivity" />
         //高德定位服务
         <service android:name="com.amap.api.location.APSService" />
 
@@ -87,21 +88,22 @@
             android:name="com.amap.api.navi.AmapRouteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".GuideActivity">
+        <activity android:name=".GuideActivity"></activity>
+        <activity android:name=".baidu.HomeActivity" />
+        //百度地图定位service
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <activity android:name=".baidu.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".baidu.HomeActivity"></activity>
-
-
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" >
-        </service>
+        <activity android:name=".baidu.MarkerActivity"></activity>
     </application>
 
 </manifest>
