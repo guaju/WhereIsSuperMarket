@@ -19,6 +19,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -44,6 +45,9 @@ public class MarkerActivity extends AppCompatActivity {
     private MapView mapView;
     private EditText et_baidu_poi;
     private BaiduMap mBaiduMap;
+    //监测infowindow是否显示的变量
+//    private boolean isInfoWindowShowing = false;
+
 
     private BDLocation bdLocation;//定位到的值
 
@@ -64,31 +68,42 @@ public class MarkerActivity extends AppCompatActivity {
         locate();
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+
+            private View view;
+            private InfoWindow mInfoWindow;
+
             @Override
             public boolean onMarkerClick(Marker marker) {
+                    view = View.inflate(MarkerActivity.this, R.layout.info_winodw_baidu, null);
+                    ImageView icon_baidu = (ImageView) view.findViewById(R.id.icon_baidu);
+                    TextView tv_title_baidu = (TextView) view.findViewById(R.id.tv_title_baidu);
+                    TextView tv_des_baidu = (TextView) view.findViewById(R.id.tv_des_baidu);
+                    tv_title_baidu.setText(marker.getTitle());
+                    tv_des_baidu.setText(marker.getExtraInfo().getString("des"));
+                    mInfoWindow = new InfoWindow(view, marker.getPosition(), 0);
+                    mBaiduMap.showInfoWindow(mInfoWindow);
+                //重影bug
+                mapView.removeView(view);
+                return true;
+            }
+        });
+        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //清空所有使用这个方法
+//                mBaiduMap.clear();
+                
+                //只隐藏infowindow
+                mBaiduMap.hideInfoWindow();
 
-//                //创建InfoWindow展示的view
-//                Button button = new Button(getApplicationContext());
-//                button.setBackgroundResource(R.drawable.popup);
-////定义用于显示该InfoWindow的坐标点
-//                LatLng pt = new LatLng(39.86923, 116.397428);
-////创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-//                InfoWindow mInfoWindow = new InfoWindow(button, pt, -47);
-////显示InfoWindow
-//                mBaiduMap.showInfoWindow(mInfoWindow);
-                View view = View.inflate(MarkerActivity.this, R.layout.info_winodw_baidu, null);
-                ImageView icon_baidu=(ImageView)view.findViewById(R.id.icon_baidu);
-                TextView tv_title_baidu=(TextView)view.findViewById(R.id.tv_title_baidu);
-                TextView tv_des_baidu=(TextView)view.findViewById(R.id.tv_des_baidu);
-                tv_title_baidu.setText(marker.getTitle());
-                tv_des_baidu.setText(marker.getExtraInfo().getString("des"));
-                InfoWindow mInfoWindow = new InfoWindow(view, marker.getPosition(), -47);
-                mBaiduMap.showInfoWindow(mInfoWindow);
+            }
+
+            @Override
+            public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;
             }
         });
 
-//        showMarkers();
     }
 
     private void findId() {
@@ -98,7 +113,7 @@ public class MarkerActivity extends AppCompatActivity {
         et_baidu_poi.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     // 先隐藏键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(MarkerActivity.this.getCurrentFocus()
@@ -106,9 +121,9 @@ public class MarkerActivity extends AppCompatActivity {
                     //隐藏完成之后去做自己的操作
 //                    searchPoi();//检索一般的信息关键字
 
-                    if (bdLocation==null){
+                    if (bdLocation == null) {
                         Toast.makeText(MarkerActivity.this, "未定位成功~~~", Toast.LENGTH_SHORT).show();
-                         return false;
+                        return false;
                     }
                     //去搜索以定位位置为圆心  以特定值为半径的区域范围内的 一些poi位置
                     searchPoiCirle(et_baidu_poi.getText().toString().trim());
@@ -126,7 +141,7 @@ public class MarkerActivity extends AppCompatActivity {
                     public void onGetPoiResult(PoiResult result) {
                         //获取POI检索结果
                         List<PoiInfo> allPoi = result.getAllPoi();
-                        if (allPoi==null||allPoi.isEmpty()){
+                        if (allPoi == null || allPoi.isEmpty()) {
                             //如果他是空的话，说明没有检索到附近的商家
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -134,8 +149,8 @@ public class MarkerActivity extends AppCompatActivity {
                                     Toast.makeText(MarkerActivity.this, "20公里内没有找到您要找的位置", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }else{
-                            for(PoiInfo pi:allPoi){
+                        } else {
+                            for (PoiInfo pi : allPoi) {
                                 showMarkers(pi);
                             }
 
@@ -172,6 +187,7 @@ public class MarkerActivity extends AppCompatActivity {
             }
         });
     }
+
     //普通检索
     private void searchPoi() {
         //1、
@@ -235,9 +251,9 @@ public class MarkerActivity extends AppCompatActivity {
                 .fromResource(R.mipmap.baidu_marker);
 
 //构建MarkerOption，用于在地图上添加Marker
-        LatLng point=poiInfo.location;
-         Bundle bundle= new Bundle();
-        bundle.putString("des",poiInfo.address);
+        LatLng point = poiInfo.location;
+        Bundle bundle = new Bundle();
+        bundle.putString("des", poiInfo.address);
         OverlayOptions option = new MarkerOptions()
                 .position(point)
                 .icon(bitmap)
@@ -249,7 +265,6 @@ public class MarkerActivity extends AppCompatActivity {
 
         mBaiduMap.addOverlay(option);
         //当marker添加完成之后，需要给marker添加点击事件
-
 
 
     }
@@ -321,7 +336,7 @@ public class MarkerActivity extends AppCompatActivity {
             //以下只列举部分获取经纬度相关（常用）的结果信息
             //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
             if (location != null) {
-                bdLocation=location;
+                bdLocation = location;
                 showLocationPosition(bdLocation);
 
                 mLocationClient.stop();//停止定位
@@ -364,7 +379,6 @@ public class MarkerActivity extends AppCompatActivity {
                 .fromResource(R.mipmap.baidu_logo);
         MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker);
         mBaiduMap.setMyLocationConfiguration(config);
-
 
 
     }
