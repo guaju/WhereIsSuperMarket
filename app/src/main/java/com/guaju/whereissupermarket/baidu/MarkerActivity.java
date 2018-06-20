@@ -1,5 +1,6 @@
 package com.guaju.whereissupermarket.baidu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -73,17 +74,34 @@ public class MarkerActivity extends AppCompatActivity {
             private InfoWindow mInfoWindow;
 
             @Override
-            public boolean onMarkerClick(Marker marker) {
-                    view = View.inflate(MarkerActivity.this, R.layout.info_winodw_baidu, null);
-                    ImageView icon_baidu = (ImageView) view.findViewById(R.id.icon_baidu);
-                    TextView tv_title_baidu = (TextView) view.findViewById(R.id.tv_title_baidu);
-                    TextView tv_des_baidu = (TextView) view.findViewById(R.id.tv_des_baidu);
-                    tv_title_baidu.setText(marker.getTitle());
-                    tv_des_baidu.setText(marker.getExtraInfo().getString("des"));
-                    mInfoWindow = new InfoWindow(view, marker.getPosition(), 0);
-                    mBaiduMap.showInfoWindow(mInfoWindow);
-                //重影bug
-                mapView.removeView(view);
+            public boolean onMarkerClick(final Marker marker) {
+                view = View.inflate(MarkerActivity.this, R.layout.info_winodw_baidu, null);
+                ImageView icon_baidu = (ImageView) view.findViewById(R.id.icon_baidu);
+                TextView tv_title_baidu = (TextView) view.findViewById(R.id.tv_title_baidu);
+                TextView tv_des_baidu = (TextView) view.findViewById(R.id.tv_des_baidu);
+                tv_title_baidu.setText(marker.getTitle());
+                tv_des_baidu.setText(marker.getExtraInfo().getString("des"));
+
+                //只需要给view添加点击事件就可以了
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MarkerActivity.this, DetailShopActivity.class);
+                        intent.putExtra("title", marker.getTitle());
+                        intent.putExtra("des", marker.getExtraInfo().getString("des"));
+                        intent.putExtra("startlatlon",new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude()));
+                        intent.putExtra("endlatlon",marker.getPosition());
+
+
+                        startActivity(intent);
+                    }
+                });
+
+                mInfoWindow = new InfoWindow(view, marker.getPosition(), 0);
+                mBaiduMap.showInfoWindow(mInfoWindow);
+
+                //重影bug  ---待解决
+//                mapView.removeView(view);
                 return true;
             }
         });
@@ -92,7 +110,7 @@ public class MarkerActivity extends AppCompatActivity {
             public void onMapClick(LatLng latLng) {
                 //清空所有使用这个方法
 //                mBaiduMap.clear();
-                
+
                 //只隐藏infowindow
                 mBaiduMap.hideInfoWindow();
 
@@ -103,6 +121,8 @@ public class MarkerActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //给InfoWindow添加点击事件
 
     }
 
@@ -382,4 +402,5 @@ public class MarkerActivity extends AppCompatActivity {
 
 
     }
+
 }

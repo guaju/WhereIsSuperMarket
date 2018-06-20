@@ -88,7 +88,7 @@
             android:name="com.amap.api.navi.AmapRouteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".GuideActivity"></activity>
+        <activity android:name=".GuideActivity" />
         <activity android:name=".baidu.HomeActivity" />
         //百度地图定位service
         <service
@@ -103,7 +103,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".baidu.MarkerActivity"></activity>
+        <activity android:name=".baidu.MarkerActivity" />
+        <activity android:name=".baidu.DetailShopActivity"></activity>
     </application>
 
 </manifest>
